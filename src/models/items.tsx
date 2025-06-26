@@ -28,7 +28,7 @@ type Sector ={
 }
 
 export type Item ={
-	id?:number
+	id:number
     createdAt:string;
     updatedAt:string;
     name:string;
@@ -38,5 +38,4 @@ export type Item ={
 	sector:Sector;
 	barCode:string;
 	imagem:string;
-
 }
