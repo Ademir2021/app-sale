@@ -68,3 +68,7 @@ footer a {
 footer a:hover {
     text-decoration: none;
 }
+
+img{
+    padding-right: 12px;
+}

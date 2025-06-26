@@ -1,10 +1,8 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import type { AuthContextType, User, UserLogin } from "../models/userLogin"
 import api from '../services/api/api';
+import { headers } from '../models/apiHeader';
 
-const headers = {
-  'Content-Type': 'application/json',
-}
 
 const AuthContext = createContext<AuthContextType | null>(null);
 

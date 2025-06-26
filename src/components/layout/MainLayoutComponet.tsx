@@ -6,10 +6,13 @@ import "./styles.css"
 const MainLayoutComponet: React.FC = () => {
     const { user, isAuthenticated, logout } = useAuth();
 
+    const logo:any = "vite.svg"
+
     return <>
         <div>
             <header>
                 <nav>
+                    <img src={logo}/> |
                     <Link to="/">Início</Link> |
                     <Link to="/about">Sobre</Link> |
                     <Link to="/dashboard">Dashboard</Link>
