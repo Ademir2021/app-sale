@@ -35,16 +35,20 @@ type User ={
 }
 type Item = {
   id:number
+  name:string
 }
 export type ItemsSale = {
   item:Item;
   amount:number;
-  price:number
+  price:number;
+  tItem:number;
 }
 export type Order ={
   person:Person;
   branch:Branch;
   user:User;
   discount:number;
+  tSale:number;
+  tNote:number;
   itemSale:ItemsSale[];
 }
