@@ -2,6 +2,7 @@ import type { Item } from "../../models/items"
 import type { Order } from "../../models/orderItems"
 import { navSale } from "./navSale"
 
+
 import "./styles.css"
 import styles from './Table.module.css'
 import "./styles.order.css"
@@ -75,7 +76,7 @@ const SaleComponent: React.FC<Props> = ({
       <div className="container-form">
         <div className="container-list">
           <table className="custom-table">
-            <thead className="custom-thead">
+               <thead className="custom-thead">
               <tr>
                 <th>ID</th>
                 <th>Nome</th>
@@ -98,10 +99,10 @@ const SaleComponent: React.FC<Props> = ({
                   <th id="text-left" className={styles.th}>{item.brand.name}</th>
                   <th id="text-left" className={styles.th}>{item.sector.name}</th>
                   <th className={styles.th}><a href={item.imagem} target="black">img</a></th>
-                  <th className={styles.th}><button onClick={() => handleUpItem(item)}>Inc</button></th>
-                  <th className={styles.th}><button onClick={() => handleDownItem(item)}>Rem</button></th>
-                  <th className={styles.th}><button onClick={() => decrementItemListStore(item)}>-</button></th>
-                  <th className={styles.th}><button onClick={() => incrementItemListStore(item)}>+</button></th>
+                  <th className={styles.th}><button onClick={() => handleUpItem(item)}><img src='imgs/icon_store.png' alt="Inserir Item" /></button></th>
+                  <th className={styles.th}><button onClick={() => handleDownItem(item)}><img src='imgs/icon_trash.png' alt="Remover Item" /></button></th>
+                  <th className={styles.th}><button onClick={() => decrementItemListStore(item)}><img src='imgs/icon_minus.png' alt="Diminuir Quantidade"/></button></th>
+                  <th className={styles.th}><button onClick={() => incrementItemListStore(item)}><img src='imgs/icon_plus.png' alt="Aumentar Quantidade" /></button></th>
                 </tr>))}</tbody></table></div></div></div></>
 
   const order_ = <> {

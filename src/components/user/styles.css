@@ -1,67 +1,52 @@
-/* Container do formulário */
-.login-container  {
-  background-color: white;
-  padding: 40px 30px;
-  border-radius: 10px;
-  box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
+.login-wrapper {
+  display: flex;
+  justify-content: center;  /* centraliza na horizontal */
+  align-items: center;      /* centraliza na vertical */
+  height: 100vh;            /* ocupa toda a altura da janela */
+  background-color: #f0f0f0;
+}
+
+.login-container {
+  background-color: #fff;
+  padding: 40px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
   width: 100%;
   max-width: 400px;
 }
 
-
-
-/* Título */
 .login-container h2 {
   margin-bottom: 20px;
   text-align: center;
-  color: #333;
 }
 
-/* Campos do formulário */
-.login-container input[type="email"],
-.login-container input[type="password"] {
-  width: 100%;
-  padding: 12px;
+.login-container form {
+  display: flex;
+  flex-direction: column;
+}
+
+.login-container input {
   margin-bottom: 15px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
+  padding: 10px;
+  font-size: 16px;
 }
 
-/* Botão */
 .login-container button {
-  width: 100%;
-  padding: 12px;
-  background-color: #4facfe;
+  padding: 10px;
+  font-size: 16px;
+  background-color: #3498db;
+  color: #fff;
   border: none;
-  color: white;
-  font-weight: bold;
-  border-radius: 5px;
+  border-radius: 4px;
   cursor: pointer;
-  transition: background 0.3s ease;
 }
 
 .login-container button:hover {
-  background-color: #00c6ff;
-}
-
-/* Link de esqueci senha */
-.login-container .forgot-password {
-  text-align: center;
-  margin-top: 10px;
-}
-
-.login-container .forgot-password a {
-  color: #4facfe;
-  text-decoration: none;
-  font-size: 14px;
-}
-
-.login-container .forgot-password a:hover {
-  text-decoration: underline;
-}
-.login-container p{
-    color: red;
-    text-align: center;
-    margin-bottom: 8px;
-    font-size: smaller;
+  background-color: #2980b9;
 }

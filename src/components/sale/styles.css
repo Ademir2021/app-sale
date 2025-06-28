@@ -1,4 +1,6 @@
 .container {
+  display: flex;
+  justify-content: center;
   font-family: Arial, sans-serif;
   margin: 3px;
   color: #333;  
@@ -22,9 +24,9 @@
 }
 
 .container-form {
-  /* list-style-type: none; */
-  padding: 8px;
-  max-height: 200px; /* ou qualquer altura desejada */
+  padding: 2px;
+  max-height: 138px;
+  width: 200vh;
   overflow-y: auto;
   padding-right: 6px;
   border: 1px solid #ccc;
@@ -34,6 +36,7 @@
 .container-list {
   background-color: #f9f9f9;
   border: 1px solid #ddd;
+  width: 200vh;
   margin-bottom: 15px;
   padding: 15px;
   border-radius: 5px;

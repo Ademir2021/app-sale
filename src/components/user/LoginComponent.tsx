@@ -19,9 +19,10 @@ const LoginComponent: React.FC<Props> = (
     }: Props) => {
 
     return <>
-    <div>
+    <div className="login-wrapper">
         <div className="login-container">
-            <h2>Login</h2>
+            <h2>Seja bem vindo(a) de volta</h2>
+            <p>Entrar na minha conta</p>
             <form onSubmit={handleLogin}>
                 <input
                     type="email"
@@ -37,11 +38,13 @@ const LoginComponent: React.FC<Props> = (
                     required
                     onChange={handleChange}
                 />
-                {msg && <p>{msg}</p>}
+                {msg && <p className="msg-red" >{msg}</p>}
+                <a className="text-right" href="##">Esqueceu a senha?</a>
                 <button type="submit">Entrar</button>
+                <a className="text-center" href="##">{"Não tem Login"}</a>
             </form>
         </div>
-        </div>
+    </div>
     </>
 }
 
