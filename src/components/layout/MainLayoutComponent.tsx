@@ -3,7 +3,7 @@ import { useAuth } from '../../context/AuthContext';
 
 import "./styles.css"
 
-const MainLayoutComponet: React.FC = () => {
+const MainLayoutComponent: React.FC = () => {
     const { user, isAuthenticated, logout } = useAuth();
 
     const logo:any = "vite.svg"
@@ -39,4 +39,4 @@ const MainLayoutComponet: React.FC = () => {
     </>
 }
 
-export default MainLayoutComponet
+export default MainLayoutComponent

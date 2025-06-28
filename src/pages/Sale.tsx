@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import SaleComponet from '../components/sale/SaleComponet';
+import SaleComponent from '../components/sale/SaleComponent';
 import type { Item } from '../models/items';
 import api from '../services/api/api';
 import type { ItemsSale, Order } from '../models/orderItems';
@@ -10,22 +10,18 @@ const Sale: React.FC = () => {
     person: { id: 1 },
     branch: { id: 1 },
     user: { id: 1 },
-    tSale: 0,
-    tNote: 0,
-    discount: 2,
+    tSale: 0.00,
+    tNote: 0.00,
+    discount: 2.00,
     itemSale: []
   })
 
-  async function getSorageOrder() {
-    const storeOrder = localStorage.getItem("sale")
+    
+  useEffect(() => {
+   const storeOrder = localStorage.getItem("sale")
     if (storeOrder)
       setOrder(JSON.parse(storeOrder))
-  }
-
-  useEffect(() => {
-    getSorageOrder()
-  }, [order])
-
+  },[order])
 
   useEffect(() => {
     api.get<Item[]>("items/items")
@@ -62,16 +58,15 @@ const Sale: React.FC = () => {
   }
 
   const handleUpItem = (item: Item) => {
-
     const setItemOrder: ItemsSale = {
       item: { id: 0, name: "" },
       amount: 0,
-      price: 0,
+      price: 0.00,
       tItem: 0
     }
     setItemOrder.item.id = item.id
     setItemOrder.item.name = item.name
-    setItemOrder.amount = 2
+    setItemOrder.amount = 1
     setItemOrder.price = item.priceMax
     setItemOrder.tItem = setItemOrder.price * setItemOrder.amount
     sumItem(setItemOrder)
@@ -86,19 +81,40 @@ const Sale: React.FC = () => {
     localStorage.setItem("sale", JSON.stringify(order))
   };
 
-  function handleSubmit() {
-    setOrder(order)
-  }
+  function incrementItemListStore(item_: Item) {
+        for (let item of order.itemSale) {
+            if (item.item.id === item_.id) {
+                item.amount += 1
+                item.tItem = item.amount * item.price
+                sumTotalSale()
+                localStorage.setItem("sale", JSON.stringify(order));
+            }
+        }
+    };
+
+    function decrementItemListStore(item_: Item) {
+        for (let item of order.itemSale) {
+            if (item.item.id === item_.id) {
+                item.amount -= 1
+                if (item.amount > 0) {
+                    item.tItem = item.amount * item.price
+                    sumTotalSale()
+                    localStorage.setItem("sale", JSON.stringify(order));
+                }
+            }
+        }
+    };
 
   return <>
-    <SaleComponet
+  <input style={{textAlign:'center'}} disabled value={"R$ "+order.tSale} />
+    <SaleComponent
       items={items}
       order={order}
       handleUpItem={handleUpItem}
       handleDownItem={handleDownItem}
+      decrementItemListStore={decrementItemListStore}
+      incrementItemListStore={incrementItemListStore}
     />
-
-    <button onClick={handleSubmit}>Finalizar venda</button>
   </>
 }
 export default Sale;

@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 
-const DashBoardComponet: React.FC = () => {
+const DashBoardComponent: React.FC = () => {
   const { user } = useAuth();
     return <div>
         <h2>Bem-vindo ao Dashboard!</h2>
@@ -12,4 +12,4 @@ const DashBoardComponet: React.FC = () => {
     </div>
 }
 
-export default DashBoardComponet;
+export default DashBoardComponent;

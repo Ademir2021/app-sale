@@ -1,0 +1,10 @@
+.thead {
+  background-color: #eaeaea;
+  color: #111;
+  font-weight: bold;
+}
+
+.th {
+  padding: 8px 12px;
+  border-bottom: 1px solid #ccc;
+}

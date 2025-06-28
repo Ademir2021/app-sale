@@ -1,10 +1,10 @@
 import React from 'react';
-import DashBoardComponet from '../components/dashboard/DashBoardComponet';
+import DashBoardComponent from '../components/dashboard/DashBoardComponent';
 
 const Dashboard: React.FC = () => {
 
   return <>
-  <DashBoardComponet
+  <DashBoardComponent
   />
   </>
 }

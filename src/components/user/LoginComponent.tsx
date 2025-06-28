@@ -10,7 +10,7 @@ type Props = {
 }
 
 
-const Login: React.FC<Props> = (
+const LoginComponent: React.FC<Props> = (
 
     {   children,
         handleChange,
@@ -45,4 +45,4 @@ const Login: React.FC<Props> = (
     </>
 }
 
-export default Login;
+export default LoginComponent;

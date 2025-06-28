@@ -1,10 +1,10 @@
 import React from 'react';
-import MainLayoutComponet from '../components/layout/MainLayoutComponet';
+import MainLayoutComponent from '../components/layout/MainLayoutComponent';
 
 const MainLayout: React.FC = () => {
 
   return <>
-    <MainLayoutComponet />
+    <MainLayoutComponent />
   </>
 };
 
