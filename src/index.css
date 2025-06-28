@@ -22,17 +22,16 @@
 
 
 body {
+  display: flex; 
   background: linear-gradient(to right, #4facfe, #00f2fe);
-    /* background: linear-gradient(to right, gray, white); */
   height: 100vh;
-  /* display: flex;  */
+  width: 100%;
   justify-content: center;
   align-items: center;
-   /* margin: 0; */
-  /* display: flex; */
+   margin: 0;
   place-items: center;
-  /* min-width: 320px; */
-  /* min-height: 100vh; */
+  min-width: 320px;
+  min-height: 100vh;
 }
 
 a {

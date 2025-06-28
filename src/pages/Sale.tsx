@@ -5,6 +5,8 @@ import api from '../services/api/api';
 import type { ItemsSale, Order } from '../models/orderItems';
 
 const Sale: React.FC = () => {
+  const [showItems, setShowItems] = useState(false);
+   const [showOrder, setShowOrder] = useState(false);
   const [items, setItems] = useState<Item[]>([])
   const [order, setOrder] = useState<Order>({
     person: { id: 1 },
@@ -16,12 +18,36 @@ const Sale: React.FC = () => {
     itemSale: []
   })
 
-    
-  useEffect(() => {
-   const storeOrder = localStorage.getItem("sale")
+  const handleChangeList = (e: { target: { checked: boolean | ((prevState: boolean) => boolean); }; }) => {
+    setShowItems(e.target.checked);
+  };
+
+   const handleChangeOrder = (e: { target: { checked: boolean | ((prevState: boolean) => boolean); }; }) => {
+    setShowOrder(e.target.checked);
+  };
+
+
+  const handleDiscountChange = (e: { target: { value: any; }; }) => {
+    const inputValue = e.target.value;
+    // Converte para número, se possível
+    const discountValue = parseFloat(inputValue) || 0;
+    // Atualiza o objeto order com o novo desconto e tNote recalculado
+    setOrder((prev) => ({
+      ...prev,
+      discount: discountValue,
+      tNote: Math.max(prev.tSale - discountValue, 0), // impede valores negativos
+    }));
+  };
+
+  function getStoreOrder() {
+    const storeOrder = localStorage.getItem("sale")
     if (storeOrder)
       setOrder(JSON.parse(storeOrder))
-  },[order])
+  }
+
+  useEffect(() => {
+    getStoreOrder()
+  }, [])
 
   useEffect(() => {
     api.get<Item[]>("items/items")
@@ -72,6 +98,7 @@ const Sale: React.FC = () => {
     sumItem(setItemOrder)
     verifItem(setItemOrder)
     localStorage.setItem("sale", JSON.stringify(order))
+    getStoreOrder()
   };
 
   const handleDownItem = (item: Item) => {
@@ -79,34 +106,36 @@ const Sale: React.FC = () => {
     order.itemSale = newArray
     sumTotalSale()
     localStorage.setItem("sale", JSON.stringify(order))
+    getStoreOrder()
   };
 
   function incrementItemListStore(item_: Item) {
-        for (let item of order.itemSale) {
-            if (item.item.id === item_.id) {
-                item.amount += 1
-                item.tItem = item.amount * item.price
-                sumTotalSale()
-                localStorage.setItem("sale", JSON.stringify(order));
-            }
-        }
-    };
+    for (let item of order.itemSale) {
+      if (item.item.id === item_.id) {
+        item.amount += 1
+        item.tItem = item.amount * item.price
+        sumTotalSale()
+        localStorage.setItem("sale", JSON.stringify(order));
+        getStoreOrder()
+      }
+    }
+  };
 
-    function decrementItemListStore(item_: Item) {
-        for (let item of order.itemSale) {
-            if (item.item.id === item_.id) {
-                item.amount -= 1
-                if (item.amount > 0) {
-                    item.tItem = item.amount * item.price
-                    sumTotalSale()
-                    localStorage.setItem("sale", JSON.stringify(order));
-                }
-            }
+  function decrementItemListStore(item_: Item) {
+    for (let item of order.itemSale) {
+      if (item.item.id === item_.id) {
+        item.amount -= 1
+        if (item.amount > 0) {
+          item.tItem = item.amount * item.price
+          sumTotalSale()
+          localStorage.setItem("sale", JSON.stringify(order));
+          getStoreOrder()
         }
-    };
+      }
+    }
+  };
 
   return <>
-  <input style={{textAlign:'center'}} disabled value={"R$ "+order.tSale} />
     <SaleComponent
       items={items}
       order={order}
@@ -114,6 +143,11 @@ const Sale: React.FC = () => {
       handleDownItem={handleDownItem}
       decrementItemListStore={decrementItemListStore}
       incrementItemListStore={incrementItemListStore}
+      handleDiscountChange={handleDiscountChange}
+      handleChangeList={handleChangeList}
+      showItems={showItems}
+      handleChangeOrder={handleChangeOrder}
+      showOrder={showOrder}
     />
   </>
 }

@@ -1,8 +1,10 @@
 import type { Item } from "../../models/items"
 import type { Order } from "../../models/orderItems"
+import { navSale } from "./navSale"
 
 import "./styles.css"
 import styles from './Table.module.css'
+import "./styles.order.css"
 
 type Props = {
   items: Item[]
@@ -11,6 +13,11 @@ type Props = {
   handleDownItem: Function
   decrementItemListStore: Function
   incrementItemListStore: Function
+  handleDiscountChange: Function | any
+  handleChangeList: Function | any
+  showItems: boolean
+  handleChangeOrder: Function | any
+  showOrder: boolean
 }
 
 const SaleComponent: React.FC<Props> = ({
@@ -19,13 +26,54 @@ const SaleComponent: React.FC<Props> = ({
   handleUpItem,
   handleDownItem,
   decrementItemListStore,
-  incrementItemListStore
+  incrementItemListStore,
+  handleDiscountChange,
+  handleChangeList,
+  showItems,
+  handleChangeOrder,
+  showOrder
 }: Props) => {
 
+  const nav_ = navSale()
+
+  const tOrder_ = <div className="order-summary">
+    <input
+      disabled
+      value={"TPedido, R$ " + order.tSale}
+    /><input
+      type='number'
+      // name="discount"
+      value={order.discount || ""}
+      onChange={handleDiscountChange}
+      placeholder="Desconto"
+    /><input
+      disabled
+      value={"TCompra, R$ " + order.tNote}
+    />
+    <label className="checkbox-label">
+      <input
+        type="checkbox"
+        checked={showItems}
+        onChange={handleChangeList}
+      />{!showItems ? "Mostrar Items" : "Ocultar Items"}
+    </label>
+{ order.itemSale.length > 0 &&
+<label className="checkbox-label">
+      <input
+        type="checkbox"
+        checked={showOrder}
+        onChange={handleChangeOrder}
+      />{!showOrder ? "Mostrar Pedido" : "Ocultar Pedido"}
+    </label>
+}
+
+  </div>
+
+
   const items_ = <>
-    <div className="items-container">
-      <div className="items-container-ul">
-        <div className="items-container-li">
+    <div className="container">
+      <div className="container-form">
+        <div className="container-list">
           <table className="custom-table">
             <thead className="custom-thead">
               <tr>
@@ -57,9 +105,9 @@ const SaleComponent: React.FC<Props> = ({
                 </tr>))}</tbody></table></div></div></div></>
 
   const order_ = <> {
-    <div className="items-container">
-      <div className="items-container-ul">
-        <div className="items-container-li">
+    <div className="container">
+      <div className="container-form">
+        <div className="container-list">
           <table className="custom-table">
             <thead className="custom-thead">
               <tr>
@@ -88,9 +136,10 @@ const SaleComponent: React.FC<Props> = ({
 
   }</>
   return <>
-    {/* <h2>Sale</h2> */}
-    <>{items_}</>
-    <>{order.itemSale.length > 0 && order_}</>
+    <>{nav_}</>
+    <>{tOrder_}</>
+    <>{showItems && items_}</>
+    <>{showOrder && order.itemSale.length > 0 && order_}</>
   </>
 }
 
