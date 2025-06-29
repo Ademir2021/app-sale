@@ -33,7 +33,7 @@ const MainLayoutComponent: React.FC = () => {
             <footer>
                 {user?.role[0] === 'ROLE_ADMIN'  &&
                     <Link to="/admin">Painel Admin</Link>}
-                <p>© 2025 - <a href='##'>Meu Site</a></p>
+                <p>© 2025 - <a href='##'>localhost:5172</a></p>
             </footer>
         </div>
     </>
