@@ -42,3 +42,8 @@
   height: 18px;
   accent-color: #007bff; /* cor personalizada (pode variar por navegador) */
 }
+
+#input-search-item-nome{
+  width: 60vh;
+  border-radius: 18px;
+}

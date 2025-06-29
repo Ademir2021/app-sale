@@ -19,6 +19,8 @@ type Props = {
   showItems: boolean
   handleChangeOrder: Function | any
   showOrder: boolean
+  handleSeachItemNome:Function | any
+  searchItemName:string
 }
 
 const SaleComponent: React.FC<Props> = ({
@@ -32,7 +34,9 @@ const SaleComponent: React.FC<Props> = ({
   handleChangeList,
   showItems,
   handleChangeOrder,
-  showOrder
+  showOrder,
+  handleSeachItemNome,
+  searchItemName
 }: Props) => {
 
   const nav_ = navSale()
@@ -50,6 +54,12 @@ const SaleComponent: React.FC<Props> = ({
     /><input
       disabled
       value={"TCompra, R$ " + order.tNote}
+    />
+    <input
+    id="input-search-item-nome"
+    value={searchItemName || ""}
+    onChange={handleSeachItemNome}
+    placeholder="Buscar Item"
     />
     <label className="checkbox-label">
       <input

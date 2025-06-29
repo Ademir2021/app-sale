@@ -7,7 +7,8 @@ import api from '../services/api/api';
 
 const Sale: React.FC = () => {
   const [showItems, setShowItems] = useState(false);
-   const [showOrder, setShowOrder] = useState(false);
+  const [showOrder, setShowOrder] = useState(false);
+  const [searchItemName, setSearchItemName] = useState<string>("con")
   const [items, setItems] = useState<Item[]>([])
   const [order, setOrder] = useState<Order>({
     person: { id: 1 },
@@ -15,7 +16,7 @@ const Sale: React.FC = () => {
     user: { id: 1 },
     tSale: 0.00,
     tNote: 0.00,
-    discount: 2.00,
+    discount: 0.00,
     itemsSale: []
   })
 
@@ -23,10 +24,14 @@ const Sale: React.FC = () => {
     setShowItems(e.target.checked);
   };
 
-   const handleChangeOrder = (e: { target: { checked: boolean | ((prevState: boolean) => boolean); }; }) => {
+  const handleChangeOrder = (e: { target: { checked: boolean | ((prevState: boolean) => boolean); }; }) => {
     setShowOrder(e.target.checked);
   };
 
+  const handleSeachItemNome = (e: { target: { value: any; }; })=>{
+    const inputValue = e.target.value;
+    setSearchItemName(inputValue)
+  }
 
   const handleDiscountChange = (e: { target: { value: any; }; }) => {
     const inputValue = e.target.value;
@@ -51,17 +56,17 @@ const Sale: React.FC = () => {
   }, [])
 
   useEffect(() => {
-    api.get<Item[]>("items/items")
+    api.get<Item[]>("items/items?name=" + searchItemName)
       .then(response => {
         setItems(response.data)
       })
-  }, [])
+  }, [searchItemName])
 
-  async function sendSale(){
-    await api.post<Order>("store/sales", order, {headers})
-    .then(response=>{
-      console.log(response.data)
-    })
+  async function sendSale() {
+    await api.post<Order>("store/sales", order, { headers })
+      .then(response => {
+        console.log(response.data)
+      })
   }
 
   function sumItem(item: ItemsSale) {
@@ -143,11 +148,11 @@ const Sale: React.FC = () => {
     }
   };
 
-  function handleSaleSumbit(){
-    if(order.itemsSale.length > 0){
+  function handleSaleSumbit() {
+    if (order.itemsSale.length > 0) {
       sendSale()
       console.log(order)
-    }else{
+    } else {
       alert("Nenhum item no pedido")
     }
   }
@@ -165,8 +170,10 @@ const Sale: React.FC = () => {
       showItems={showItems}
       handleChangeOrder={handleChangeOrder}
       showOrder={showOrder}
+      handleSeachItemNome={handleSeachItemNome}
+      searchItemName={searchItemName}
     />
-    <br/>
+    <br />
     <button onClick={handleSaleSumbit}>Enviar Venda</button>
   </>
 }
