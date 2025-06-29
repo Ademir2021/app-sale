@@ -3,7 +3,13 @@ export type UserLogin ={
     password:string;
 }
 
-export type Role = 'user' | 'admin';
+type Role = 'ROLE_ADMIN' | 'ROLE_USER'
+
+export type UserResponse ={
+  token:string;
+  username:string
+  roles:Role
+}
 
 export interface User {
   login: string;

@@ -10,7 +10,7 @@ const AdminRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     return <Navigate to="/login" state={{ from: location }} replace />;
   }
 
-  if (user.role !== 'admin') {
+  if (user.role[0] !== 'ROLE_ADMIN') {
     return <h2>Acesso negado. Somente administradores.</h2>;
   }
 

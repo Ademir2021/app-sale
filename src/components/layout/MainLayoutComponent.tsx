@@ -31,7 +31,7 @@ const MainLayoutComponent: React.FC = () => {
                 <Outlet />
             </main>
             <footer>
-                {user?.role === 'admin' &&
+                {user?.role[0] === 'ROLE_ADMIN'  &&
                     <Link to="/admin">Painel Admin</Link>}
                 <p>© 2025 - <a href='##'>Meu Site</a></p>
             </footer>

@@ -27,6 +27,7 @@ const LoginComponent: React.FC<Props> = (
                 <input
                     type="email"
                     placeholder="Email"
+                    name="login"
                     value={children.login || ''}
                     required
                     onChange={handleChange}
@@ -34,6 +35,7 @@ const LoginComponent: React.FC<Props> = (
                 <input
                     type="password"
                     placeholder="Senha"
+                    name="password"
                     value={children.password || ''}
                     required
                     onChange={handleChange}

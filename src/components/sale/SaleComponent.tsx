@@ -58,7 +58,7 @@ const SaleComponent: React.FC<Props> = ({
         onChange={handleChangeList}
       />{!showItems ? "Mostrar Items" : "Ocultar Items"}
     </label>
-{ order.itemSale.length > 0 &&
+{ order.itemsSale.length > 0 &&
 <label className="checkbox-label">
       <input
         type="checkbox"
@@ -98,7 +98,7 @@ const SaleComponent: React.FC<Props> = ({
                   <th id="text-left" className={styles.th}>{item.priceMax}</th>
                   <th id="text-left" className={styles.th}>{item.brand.name}</th>
                   <th id="text-left" className={styles.th}>{item.sector.name}</th>
-                  <th className={styles.th}><a href={item.imagem} target="black">img</a></th>
+                  <th className={styles.th}><a href={item.imagem} target="black"><img src="/imgs/icon_img.png" alt="Mostrar Produto" /></a></th>
                   <th className={styles.th}><button onClick={() => handleUpItem(item)}><img src='imgs/icon_store.png' alt="Inserir Item" /></button></th>
                   <th className={styles.th}><button onClick={() => handleDownItem(item)}><img src='imgs/icon_trash.png' alt="Remover Item" /></button></th>
                   <th className={styles.th}><button onClick={() => decrementItemListStore(item)}><img src='imgs/icon_minus.png' alt="Diminuir Quantidade"/></button></th>
@@ -120,7 +120,7 @@ const SaleComponent: React.FC<Props> = ({
               </tr>
             </thead>
             <tbody className="custom-tbody">
-              {order.itemSale.map((item, index) => (
+              {order.itemsSale.map((item, index) => (
                 <tr key={index}>
                   <th className={styles.th} >{item.item.id}</th>
                   <th id="text-left" className={styles.th}>{item.item.name}</th>
@@ -140,7 +140,7 @@ const SaleComponent: React.FC<Props> = ({
     <>{nav_}</>
     <>{tOrder_}</>
     <>{showItems && items_}</>
-    <>{showOrder && order.itemSale.length > 0 && order_}</>
+    <>{showOrder && order.itemsSale.length > 0 && order_}</>
   </>
 }
 

@@ -23,6 +23,5 @@ export function navSale() {
 
       </nav>
     </div>
-  console.log(uri)
   return nav_
 }

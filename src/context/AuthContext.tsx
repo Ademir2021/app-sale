@@ -1,8 +1,7 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
-import type { AuthContextType, User, UserLogin } from "../models/userLogin"
-import api from '../services/api/api';
+import type { AuthContextType, UserResponse, User, UserLogin } from "../models/userLogin"
 import { headers } from '../models/apiHeader';
-
+import api from '../services/api/api';
 
 const AuthContext = createContext<AuthContextType | null>(null);
 
@@ -11,26 +10,29 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [user, setUser] = useState<User | null>(null)
   const [msg, setMsg] = useState('')
 
-  useEffect(() => {
+  function getStoreUSer(){
     const storedUser = localStorage.getItem("user");
-    if (storedUser) {
+    if (storedUser){
       const parsedUser: User = JSON.parse(storedUser);
       setUser(parsedUser)
     }
+  }
+  useEffect(() => {
+    getStoreUSer()
   }, []);
 
   async function login_(userLogin: UserLogin) {
     
     try {
-      await api.post('auth/login', userLogin, { headers })
+      await api.post<UserResponse>('auth/login', userLogin, { headers })
         .then(response => {
           const resUser: User = {
-            login: userLogin.login,
             token: response.data.token,
-            role: response.data.role || 'admin'
-          };
-          setUser(resUser);
-          localStorage.setItem('user', JSON.stringify(resUser));
+            login: response.data.username,
+            role: response.data.roles
+          }
+           setUser(resUser);
+           localStorage.setItem('user', JSON.stringify(resUser));
           setMsg("Autenticado com sucesso aguarde")
         })
     } catch (error) {

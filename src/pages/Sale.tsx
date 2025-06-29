@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import SaleComponent from '../components/sale/SaleComponent';
 import type { Item } from '../models/items';
-import api from '../services/api/api';
+import { headers } from '../models/apiHeader';
 import type { ItemsSale, Order } from '../models/orderItems';
+import api from '../services/api/api';
 
 const Sale: React.FC = () => {
   const [showItems, setShowItems] = useState(false);
@@ -15,7 +16,7 @@ const Sale: React.FC = () => {
     tSale: 0.00,
     tNote: 0.00,
     discount: 2.00,
-    itemSale: []
+    itemsSale: []
   })
 
   const handleChangeList = (e: { target: { checked: boolean | ((prevState: boolean) => boolean); }; }) => {
@@ -56,8 +57,15 @@ const Sale: React.FC = () => {
       })
   }, [])
 
+  async function sendSale(){
+    await api.post<Order>("store/sales", order, {headers})
+    .then(response=>{
+      console.log(response.data)
+    })
+  }
+
   function sumItem(item: ItemsSale) {
-    for (let i of order.itemSale)
+    for (let i of order.itemsSale)
       if (i.item.id === item.item.id) {
         i.amount = item.amount + item.amount;
         return item.tItem = item.amount * item.price;
@@ -65,12 +73,12 @@ const Sale: React.FC = () => {
   }
 
   function verifItem(item: ItemsSale) {
-    const exists = order.itemSale.some(i => i.item.id === item.item.id);
+    const exists = order.itemsSale.some(i => i.item.id === item.item.id);
     if (exists) {
       alert('Este item já foi adicionado à venda!');
       return;
     } else {
-      order.itemSale.push(item)
+      order.itemsSale.push(item)
       sumTotalSale()
       setOrder(order)
     }
@@ -78,7 +86,7 @@ const Sale: React.FC = () => {
 
   function sumTotalSale() {
     order.tSale = 0.00
-    for (let i of order.itemSale)
+    for (let i of order.itemsSale)
       order.tSale += i.tItem
     order.tNote = order.tSale - order.discount
   }
@@ -102,15 +110,15 @@ const Sale: React.FC = () => {
   };
 
   const handleDownItem = (item: Item) => {
-    const newArray = order.itemSale.filter(obj => obj.item.id !== item.id);
-    order.itemSale = newArray
+    const newArray = order.itemsSale.filter(obj => obj.item.id !== item.id);
+    order.itemsSale = newArray
     sumTotalSale()
     localStorage.setItem("sale", JSON.stringify(order))
     getStoreOrder()
   };
 
   function incrementItemListStore(item_: Item) {
-    for (let item of order.itemSale) {
+    for (let item of order.itemsSale) {
       if (item.item.id === item_.id) {
         item.amount += 1
         item.tItem = item.amount * item.price
@@ -122,7 +130,7 @@ const Sale: React.FC = () => {
   };
 
   function decrementItemListStore(item_: Item) {
-    for (let item of order.itemSale) {
+    for (let item of order.itemsSale) {
       if (item.item.id === item_.id) {
         item.amount -= 1
         if (item.amount > 0) {
@@ -134,6 +142,15 @@ const Sale: React.FC = () => {
       }
     }
   };
+
+  function handleSaleSumbit(){
+    if(order.itemsSale.length > 0){
+      sendSale()
+      console.log(order)
+    }else{
+      alert("Nenhum item no pedido")
+    }
+  }
 
   return <>
     <SaleComponent
@@ -149,6 +166,8 @@ const Sale: React.FC = () => {
       handleChangeOrder={handleChangeOrder}
       showOrder={showOrder}
     />
+    <br/>
+    <button onClick={handleSaleSumbit}>Enviar Venda</button>
   </>
 }
 export default Sale;
