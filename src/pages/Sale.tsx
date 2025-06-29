@@ -8,7 +8,8 @@ import api from '../services/api/api';
 const Sale: React.FC = () => {
   const [showItems, setShowItems] = useState(false);
   const [showOrder, setShowOrder] = useState(false);
-  const [searchItemName, setSearchItemName] = useState<string>("con")
+  const [responseStatus, setResponseStatus] = useState(0)
+  const [searchItemName, setSearchItemName] = useState<string>("")
   const [items, setItems] = useState<Item[]>([])
   const [order, setOrder] = useState<Order>({
     person: { id: 1 },
@@ -28,7 +29,7 @@ const Sale: React.FC = () => {
     setShowOrder(e.target.checked);
   };
 
-  const handleSeachItemNome = (e: { target: { value: any; }; })=>{
+  const handleSeachItemNome = (e: { target: { value: any; }; }) => {
     const inputValue = e.target.value;
     setSearchItemName(inputValue)
   }
@@ -59,6 +60,7 @@ const Sale: React.FC = () => {
     api.get<Item[]>("items/items?name=" + searchItemName)
       .then(response => {
         setItems(response.data)
+        setResponseStatus(response.status)
       })
   }, [searchItemName])
 
@@ -151,7 +153,10 @@ const Sale: React.FC = () => {
   function handleSaleSumbit() {
     if (order.itemsSale.length > 0) {
       sendSale()
-      console.log(order)
+      if (responseStatus === 200) {
+        localStorage.removeItem('sale')
+        console.log(responseStatus)
+      }
     } else {
       alert("Nenhum item no pedido")
     }
