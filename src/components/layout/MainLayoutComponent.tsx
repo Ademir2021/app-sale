@@ -12,7 +12,7 @@ const MainLayoutComponent: React.FC = () => {
         <div>
             <header>
                 <nav>
-                    <img src={logo}/> |
+                    <img src={logo}/> 
                     <Link to="/">Início</Link> |
                     <Link to="/about">Sobre</Link> |
                     <Link to="/dashboard">Dashboard</Link>

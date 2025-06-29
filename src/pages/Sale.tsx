@@ -57,7 +57,7 @@ const Sale: React.FC = () => {
   }, [])
 
   useEffect(() => {
-    api.get<Item[]>("items/items?name=" + searchItemName)
+    api.get<Item[]>("items/search_name?name=" + searchItemName)
       .then(response => {
         setItems(response.data)
         setResponseStatus(response.status)
@@ -155,6 +155,7 @@ const Sale: React.FC = () => {
       sendSale()
       if (responseStatus === 200) {
         localStorage.removeItem('sale')
+        order.itemsSale = []
         console.log(responseStatus)
       }
     } else {
