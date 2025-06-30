@@ -1,0 +1,7 @@
+.form label {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  color: #333;
+  font-weight: bold;
+}

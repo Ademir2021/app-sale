@@ -9,6 +9,7 @@ import MainLayout from '../layouts/MainLayout';
 import ProtectedRoute from './ProtectedRoute';
 import AdminRoute from './AdminRoute';
 import Sale from '../pages/Sale';
+import Address from '../pages/Address';
 
 const router = createBrowserRouter([
   {
@@ -29,6 +30,13 @@ const router = createBrowserRouter([
         element:(
           <ProtectedRoute>
             <Sale/>
+          </ProtectedRoute>
+        )
+      },{
+        path:'address',
+        element:(
+          <ProtectedRoute>
+            <Address/>
           </ProtectedRoute>
         )
       },
