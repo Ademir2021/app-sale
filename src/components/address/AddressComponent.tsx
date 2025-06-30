@@ -14,13 +14,15 @@ type Props = {
   children: Address
   onSubmit: React.FormEventHandler<HTMLFormElement>
   onClick: React.MouseEventHandler<HTMLButtonElement>
+  msg:string
 }
 
 const AddressComponent: React.FC<Props> = ({
   handleChange,
   children,
   onSubmit,
-  onClick
+  onClick,
+  msg
 }: Props) => {
 
   const nav_ = navSale()
@@ -51,6 +53,7 @@ const AddressComponent: React.FC<Props> = ({
               name="Número"
               input={
                 <InputComponent
+                className="input-number"
                   type="text"
                   placeholder="Número"
                   name='number'
@@ -116,7 +119,7 @@ const AddressComponent: React.FC<Props> = ({
             onClick={onClick}
           />
           <MsgComponent
-            msg="Msg"
+            msg={msg}
           />
         </>
         }

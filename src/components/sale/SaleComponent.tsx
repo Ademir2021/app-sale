@@ -80,7 +80,6 @@ const SaleComponent: React.FC<Props> = ({
 
   </div>
 
-
   const items_ = <>
     <div className="container">
       <div className="container-form">
