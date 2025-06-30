@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import AddressComponent from "../components/address/AddressComponent"
-import type { Address } from "../models/address";
+import type { Address, ResponseAddress } from "../models/address";
 import AddressListComponent from "../components/address/AddressListComponent";
 import api from "../services/api/api";
 import { useAuth } from "../context/AuthContext";
@@ -11,7 +11,7 @@ const Address: React.FC = () => {
     const { headers } = useAuth();
 
     // const [msg, setMsg] = useState('')
-    const [address_, setAddress_] = useState<Address[]>([])
+    const [responseaddress, setResponseAddress] = useState<ResponseAddress[]>([])
     const [address, setAddress] = useState<Address>({
         id: 0,
         street: "",
@@ -29,9 +29,9 @@ const Address: React.FC = () => {
     }
 
     async function getAddress() {
-        await api.get<Address[]>("address/address", headers)
+        await api.get<ResponseAddress[]>("address/address", headers)
             .then(response => {
-                setAddress_(response.data)
+                setResponseAddress(response.data)
                 console.log(response.data)
             })
     }
@@ -54,7 +54,7 @@ const Address: React.FC = () => {
             {address}
         </AddressComponent>
         <AddressListComponent
-            address={address_}
+            address={responseaddress}
         />
     </>
 }

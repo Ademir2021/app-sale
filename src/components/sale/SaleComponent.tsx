@@ -19,8 +19,8 @@ type Props = {
   showItems: boolean
   handleChangeOrder: Function | any
   showOrder: boolean
-  handleSeachItemNome:Function | any
-  searchItemName:string
+  handleSeachItemNome: Function | any
+  searchItemName: string
 }
 
 const SaleComponent: React.FC<Props> = ({
@@ -41,6 +41,12 @@ const SaleComponent: React.FC<Props> = ({
 
   const nav_ = navSale()
 
+  function  findItemAdd(id: number) {
+    for (let i of order.itemsSale)
+      if (i.item.id === id)
+        return true
+  }
+
   const tOrder_ = <div className="order-summary">
     <input
       disabled
@@ -56,10 +62,10 @@ const SaleComponent: React.FC<Props> = ({
       value={"TCompra, R$ " + order.tNote}
     />
     <input
-    id="input-search-item-nome"
-    value={searchItemName || ""}
-    onChange={handleSeachItemNome}
-    placeholder="Buscar Item"
+      id="input-search-item-nome"
+      value={searchItemName || ""}
+      onChange={handleSeachItemNome}
+      placeholder="Buscar Item"
     />
     <label className="checkbox-label">
       <input
@@ -68,15 +74,15 @@ const SaleComponent: React.FC<Props> = ({
         onChange={handleChangeList}
       />{!showItems ? "Mostrar Items" : "Ocultar Items"}
     </label>
-{ order.itemsSale.length > 0 &&
-<label className="checkbox-label">
-      <input
-        type="checkbox"
-        checked={showOrder}
-        onChange={handleChangeOrder}
-      />{!showOrder ? "Mostrar Pedido" : "Ocultar Pedido"}
-    </label>
-}
+    {order.itemsSale.length > 0 &&
+      <label className="checkbox-label">
+        <input
+          type="checkbox"
+          checked={showOrder}
+          onChange={handleChangeOrder}
+        />{!showOrder ? "Mostrar Pedido" : "Ocultar Pedido"}
+      </label>
+    }
 
   </div>
 
@@ -85,7 +91,7 @@ const SaleComponent: React.FC<Props> = ({
       <div className="container-form">
         <div className="container-list">
           <table className="custom-table">
-               <thead className="custom-thead">
+            <thead className="custom-thead">
               <tr>
                 <th>ID</th>
                 <th>Nome</th>
@@ -93,10 +99,10 @@ const SaleComponent: React.FC<Props> = ({
                 <th>Marca</th>
                 <th>Setor</th>
                 <th>Img</th>
-                <th id="text-center">Incluir</th>
+                {/* <th id="text-center">Incluir</th>
                 <th id="text-center">Remover</th>
                 <th id="text-center">-</th>
-                <th id="text-center">+</th>
+                <th id="text-center">+</th> */}
               </tr>
             </thead>
             <tbody className="custom-tbody">
@@ -108,10 +114,10 @@ const SaleComponent: React.FC<Props> = ({
                   <th id="text-left" className={styles.th}>{item.brand.name}</th>
                   <th id="text-left" className={styles.th}>{item.sector.name}</th>
                   <th className={styles.th}><a href={item.imagem} target="black"><img src="/imgs/icon_img.png" alt="Mostrar Produto" /></a></th>
-                  <th className={styles.th}><button onClick={() => handleUpItem(item)}><img src='imgs/icon_store.png' alt="Inserir Item" /></button></th>
-                  <th className={styles.th}><button onClick={() => handleDownItem(item)}><img src='imgs/icon_trash.png' alt="Remover Item" /></button></th>
-                  <th className={styles.th}><button onClick={() => decrementItemListStore(item)}><img src='imgs/icon_minus.png' alt="Diminuir Quantidade"/></button></th>
-                  <th className={styles.th}><button onClick={() => incrementItemListStore(item)}><img src='imgs/icon_plus.png' alt="Aumentar Quantidade" /></button></th>
+                  {!findItemAdd(item.id) && <th className={styles.th}><button onClick={() => handleUpItem(item)}><img src='imgs/icon_store.png' alt="Inserir Item" /></button></th>}
+                  {findItemAdd(item.id) && <> <th className={styles.th}><button onClick={() => handleDownItem(item)}><img src='imgs/icon_trash.png' alt="Remover Item" /></button></th>
+                    <th className={styles.th}><button onClick={() => decrementItemListStore(item)}><img src='imgs/icon_minus.png' alt="Diminuir Quantidade" /></button></th>
+                    <th className={styles.th}><button onClick={() => incrementItemListStore(item)}><img src='imgs/icon_plus.png' alt="Aumentar Quantidade" /></button></th></>}
                 </tr>))}</tbody></table></div></div></div></>
 
   const order_ = <> {
