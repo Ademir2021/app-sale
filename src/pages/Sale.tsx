@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import SaleComponent from '../components/sale/SaleComponent';
 import type { Item } from '../models/items';
-import { headers } from '../models/apiHeader';
 import type { ItemsSale, Order } from '../models/orderItems';
 import api from '../services/api/api';
+import { useAuth } from '../context/AuthContext';
 
 const Sale: React.FC = () => {
+
+  const { headers } = useAuth();
+
   const [showItems, setShowItems] = useState(false);
   const [showOrder, setShowOrder] = useState(false);
   const [responseStatus, setResponseStatus] = useState(0)
@@ -56,12 +59,16 @@ const Sale: React.FC = () => {
     getStoreOrder()
   }, [])
 
-  useEffect(() => {
-    api.get<Item[]>("items/search_name?name=" + searchItemName)
+  async function getItems() {
+    await api.get<Item[]>("items/search_name?name=" + searchItemName, { headers })
       .then(response => {
         setItems(response.data)
         setResponseStatus(response.status)
       })
+  }
+
+  useEffect(() => {
+    getItems()
   }, [searchItemName])
 
   async function sendSale() {

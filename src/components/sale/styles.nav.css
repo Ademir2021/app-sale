@@ -22,11 +22,23 @@
 
 .container-nav nav a:hover {
   color: #0056b3;
-  text-decoration: underline;
+  /* text-decoration: underline; */
 }
 
-/* Estilo opcional para as barras "/" */
-.container-nav nav a + a::before {
-  content: "/";
+/* Estilo opcional para as barras "" */
+/* .container-nav nav a + a::before {
+  content: "";
   color: #999;
+} */
+
+.uri-is-active{
+  padding: 2px;
+  border-radius: 3px;
+  background-color:aquamarine;
+  padding-left: 6px;
+  padding-right: 6px;
+}
+
+.uri-is-no-active{
+  padding: auto;
 }

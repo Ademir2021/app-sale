@@ -23,4 +23,5 @@ export interface AuthContextType {
   logout: () => void;
   isAuthenticated: boolean;
   msg: string
+  headers:Object | any
 }

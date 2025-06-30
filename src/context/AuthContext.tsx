@@ -1,6 +1,5 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import type { AuthContextType, UserResponse, User, UserLogin } from "../models/userLogin"
-import { headers } from '../models/apiHeader';
 import api from '../services/api/api';
 
 const AuthContext = createContext<AuthContextType | null>(null);
@@ -10,9 +9,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [user, setUser] = useState<User | null>(null)
   const [msg, setMsg] = useState('')
 
-  function getStoreUSer(){
+  function getStoreUSer() {
     const storedUser = localStorage.getItem("user");
-    if (storedUser){
+    if (storedUser) {
       const parsedUser: User = JSON.parse(storedUser);
       setUser(parsedUser)
     }
@@ -21,23 +20,28 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     getStoreUSer()
   }, []);
 
+  const headers = {
+    'Content-Type': 'application/json',
+    'Authorization': `Bearer ${user?.token}`
+  }
+
   async function login_(userLogin: UserLogin) {
-    
+
     try {
-      await api.post<UserResponse>('auth/login', userLogin, { headers })
+      await api.post<UserResponse>('auth/login', userLogin, { headers: { 'Content-Type': 'application/json' } })
         .then(response => {
           const resUser: User = {
             token: response.data.token,
             login: response.data.username,
             role: response.data.roles
           }
-           setUser(resUser);
-           localStorage.setItem('user', JSON.stringify(resUser));
+          setUser(resUser);
+          localStorage.setItem('user', JSON.stringify(resUser));
           setMsg("Autenticado com sucesso aguarde")
         })
     } catch (error) {
-      if(!user)
-      setMsg("Credenciais inválidas " + error)
+      if (!user)
+        setMsg("Credenciais inválidas " + error)
     }
   }
 
@@ -48,7 +52,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   };
 
   return (
-    <AuthContext.Provider value={{ user, login_, logout, isAuthenticated: !!user, msg }}>
+    <AuthContext.Provider value={{ user, login_, logout, isAuthenticated: !!user, msg, headers }}>
       {children}
     </AuthContext.Provider>
   );

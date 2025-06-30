@@ -10,16 +10,18 @@ export function navSale() {
   const person = "/person"
   const pay = '/pay'
   const delivery = "/delivery"
+  const uriIsActive = 'uri-is-active'
+  const uriIsNoActive = 'uri-is-no-active'
 
 
   const nav_ =
     <div className="container-nav">
       <nav>
-        <Link style={uri !== sale ? { display: "flex" } : { display: "none" }} to={sale}>Comprar</Link>
-        <Link style={uri !== address ? { display: "flex" } : { display: "none" }} to={address}>Dados de Entrega</Link>
-        <Link style={uri !== person ? { display: "flex" } : { display: "none" }} to={person}>Dados do Comprador</Link>
-        <Link style={uri !== pay ? { display: "flex" } : { display: "none" }} to={pay}>Pagamento</Link>
-        <Link style={uri !== delivery ? { display: "flex" } : { display: "none" }} to={delivery}>Entrega</Link>
+        <Link className={uri === sale ? uriIsActive : uriIsNoActive}  to={sale}>Comprar</Link>
+        <Link className={uri === address ? uriIsActive : uriIsNoActive} to={address}>Dados de Entrega</Link>
+        <Link className={uri === person ? uriIsActive : uriIsNoActive} to={person}>Dados do Comprador</Link>
+        <Link className={uri === pay ? uriIsActive : uriIsNoActive}  to={pay}>Pagamento</Link>
+        <Link className={uri === delivery ? uriIsActive : uriIsNoActive} to={delivery}>Entrega</Link>
 
       </nav>
     </div>
