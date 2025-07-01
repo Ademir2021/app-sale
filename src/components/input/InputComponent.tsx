@@ -1,12 +1,10 @@
-
-
 import './styles.css'
 
 type Props = {
     type: React.HTMLInputTypeAttribute
     placeholder: string
     name: string
-    value: string | number
+    value: string | number | Date | any
     onChange: React.ChangeEventHandler<HTMLInputElement>
     className?: string
 }

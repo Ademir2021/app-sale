@@ -1,4 +1,4 @@
-import type { Address } from "../../models/address"
+import type { TAddress } from "../../models/address"
 import ButtonComponent from "../button/ButtonComponent"
 import FormComponents from "../form/FormComponents"
 import InputComponent from "../input/InputComponent"
@@ -11,7 +11,7 @@ import './styles.css'
 
 type Props = {
   handleChange: any
-  children: Address
+  children: TAddress
   onSubmit: React.FormEventHandler<HTMLFormElement>
   onClick: React.MouseEventHandler<HTMLButtonElement>
   msg:string
@@ -29,7 +29,6 @@ const AddressComponent: React.FC<Props> = ({
 
   return <>
     <>{nav_}</>
-    <p>Endereços</p>
     <ModalComponent
       title="Endereços"
       btnOpen="Inserir"
@@ -46,8 +45,7 @@ const AddressComponent: React.FC<Props> = ({
                   name='street'
                   onChange={handleChange}
                   value={children.street}
-                />
-              }
+                />}
             />
             <LabelComponents
               name="Número"

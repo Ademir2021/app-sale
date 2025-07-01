@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import AddressComponent from "../components/address/AddressComponent"
-import type { Address, ResponseAddress } from "../models/address";
+import type { TAddress, ResponseAddress } from "../models/address";
 import AddressListComponent from "../components/address/AddressListComponent";
 import api from "../services/api/api";
 import { useAuth } from "../context/AuthContext";
@@ -11,8 +11,8 @@ const Address: React.FC = () => {
     const { headers } = useAuth();
 
     // const [msg, setMsg] = useState('')
-    const [responseaddress, setResponseAddress] = useState<ResponseAddress[]>([])
-    const [address, setAddress] = useState<Address>({
+    const [addresss, setAddresss] = useState<ResponseAddress[]>([])
+    const [address, setAddress] = useState<TAddress>({
         id: 0,
         street: "",
         number: '',
@@ -28,16 +28,16 @@ const Address: React.FC = () => {
         setAddress((values: any) => ({ ...values, [name]: value }))
     }
 
-    async function getAddress() {
+    async function getAddresss() {
         await api.get<ResponseAddress[]>("address/address", headers)
             .then(response => {
-                setResponseAddress(response.data)
+                setAddresss(response.data)
                 console.log(response.data)
             })
     }
 
     useEffect(() => {
-        getAddress()
+        getAddresss()
     }, [])
 
     const handleSubmit = (e: any) => {
@@ -47,14 +47,14 @@ const Address: React.FC = () => {
     return <>
         <AddressComponent
             onSubmit={handleSubmit}
-            onClick={() => { getAddress() }}
+            onClick={() => { getAddresss() }}
             handleChange={handleChange}
             msg={'msg'}
         >
             {address}
         </AddressComponent>
         <AddressListComponent
-            address={responseaddress}
+            address={addresss}
         />
     </>
 }

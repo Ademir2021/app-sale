@@ -1,0 +1,13 @@
+.input-cpf{
+     width: 30vh;
+}
+.gender-select{
+    position: absolute;
+    top: 35vh;
+    left: 40vh;
+    font-size: 12px;
+    color: green;
+}
+.input-date-of-birth{
+    width: 30vh;
+}

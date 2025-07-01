@@ -10,6 +10,7 @@ import ProtectedRoute from './ProtectedRoute';
 import AdminRoute from './AdminRoute';
 import Sale from '../pages/Sale';
 import Address from '../pages/Address';
+import Person from '../pages/Person';
 
 const router = createBrowserRouter([
   {
@@ -25,18 +26,25 @@ const router = createBrowserRouter([
             <Dashboard />
           </ProtectedRoute>
         ),
-      },{
-        path:'sale',
-        element:(
+      }, {
+        path: 'sale',
+        element: (
           <ProtectedRoute>
-            <Sale/>
+            <Sale />
           </ProtectedRoute>
         )
-      },{
-        path:'address',
-        element:(
+      }, {
+        path: 'address',
+        element: (
           <ProtectedRoute>
-            <Address/>
+            <Address />
+          </ProtectedRoute>
+        )
+      }, {
+        path: 'person',
+        element: (
+          <ProtectedRoute>
+            <Person />
           </ProtectedRoute>
         )
       },

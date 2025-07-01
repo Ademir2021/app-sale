@@ -31,6 +31,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       await api.post<UserResponse>('auth/login', userLogin, { headers: { 'Content-Type': 'application/json' } })
         .then(response => {
           const resUser: User = {
+            id: response.data.id,
             token: response.data.token,
             login: response.data.username,
             role: response.data.roles

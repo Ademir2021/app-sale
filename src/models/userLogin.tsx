@@ -6,12 +6,14 @@ export type UserLogin ={
 type Role = 'ROLE_ADMIN' | 'ROLE_USER'
 
 export type UserResponse ={
+  id:number
   token:string;
   username:string
   roles:Role
 }
 
 export interface User {
+  id:number;
   login: string;
   role: Role;
   token: string

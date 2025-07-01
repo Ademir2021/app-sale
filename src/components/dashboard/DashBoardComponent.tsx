@@ -6,6 +6,7 @@ const DashBoardComponent: React.FC = () => {
     return <div>
         <h2>Bem-vindo ao Dashboard!</h2>
         <p><span>Usuário: </span>{user?.role}</p>
+        <p><span>ID: </span>{user?.id}</p>
         <p><span>Login: </span>{user?.login}</p>
         <hr/>
         <Link to="/sale">Comprar</Link>

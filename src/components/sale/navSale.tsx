@@ -18,8 +18,8 @@ export function navSale() {
     <div className="container-nav">
       <nav>
         <Link className={uri === sale ? uriIsActive : uriIsNoActive}  to={sale}>Comprar</Link>
-        <Link className={uri === address ? uriIsActive : uriIsNoActive} to={address}>Dados de Entrega</Link>
         <Link className={uri === person ? uriIsActive : uriIsNoActive} to={person}>Dados do Comprador</Link>
+        <Link className={uri === address ? uriIsActive : uriIsNoActive} to={address}>Dados de Entrega</Link>
         <Link className={uri === pay ? uriIsActive : uriIsNoActive}  to={pay}>Pagamento</Link>
         <Link className={uri === delivery ? uriIsActive : uriIsNoActive} to={delivery}>Entrega</Link>
 

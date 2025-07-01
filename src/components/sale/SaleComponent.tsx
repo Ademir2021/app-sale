@@ -41,7 +41,7 @@ const SaleComponent: React.FC<Props> = ({
 
   const nav_ = navSale()
 
-  function  findItemAdd(id: number) {
+  const isItemsnoOrder = (id: number) => {
     for (let i of order.itemsSale)
       if (i.item.id === id)
         return true
@@ -114,8 +114,8 @@ const SaleComponent: React.FC<Props> = ({
                   <th id="text-left" className={styles.th}>{item.brand.name}</th>
                   <th id="text-left" className={styles.th}>{item.sector.name}</th>
                   <th className={styles.th}><a href={item.imagem} target="black"><img src="/imgs/icon_img.png" alt="Mostrar Produto" /></a></th>
-                  {!findItemAdd(item.id) && <th className={styles.th}><button onClick={() => handleUpItem(item)}><img src='imgs/icon_store.png' alt="Inserir Item" /></button></th>}
-                  {findItemAdd(item.id) && <> <th className={styles.th}><button onClick={() => handleDownItem(item)}><img src='imgs/icon_trash.png' alt="Remover Item" /></button></th>
+                  {!isItemsnoOrder(item.id) && <th className={styles.th}><button onClick={() => handleUpItem(item)}><img src='imgs/icon_store.png' alt="Inserir Item" /></button></th>}
+                  {isItemsnoOrder(item.id) && <> <th className={styles.th}><button onClick={() => handleDownItem(item)}><img src='imgs/icon_trash.png' alt="Remover Item" /></button></th>
                     <th className={styles.th}><button onClick={() => decrementItemListStore(item)}><img src='imgs/icon_minus.png' alt="Diminuir Quantidade" /></button></th>
                     <th className={styles.th}><button onClick={() => incrementItemListStore(item)}><img src='imgs/icon_plus.png' alt="Aumentar Quantidade" /></button></th></>}
                 </tr>))}</tbody></table></div></div></div></>

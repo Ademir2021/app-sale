@@ -6,7 +6,7 @@ type ZipCode = {
     id: number;
     code: string;
 }
-export type Address = {
+export type TAddress = {
     id: number;
     street: string;
     number:string;
