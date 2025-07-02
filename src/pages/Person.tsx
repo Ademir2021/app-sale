@@ -7,14 +7,14 @@ import PersonListComponent from "../components/person/PersonListComponent"
 
 const Person: React.FC = () => {
 
-    const { headers } = useAuth();
+    const { headers, user } = useAuth();
 
     const [persons, setPersons] = useState<ResponsePerson[]>([])
     const [person, setPerson] = useState<TPerson>({
         id: 0,
         createdAt: "2025-06-19T08:04:29.243201",
         branch: { id: 0 },
-        user: { id: 0 },
+        user: { id: user?.id || 0 },
         name: "",
         dateOfBirth: "1900-01-01",
         gender: 'MASCULINO',
@@ -44,13 +44,16 @@ const Person: React.FC = () => {
         e.preventDefault()
          getPersons()
     }
+    console.log(person)
     return <>
-        {/* <p>{JSON.stringify(person)}</p> */}
+        <p>{JSON.stringify(person)}</p>
         <PersonComponent
             handleChange={handleChange}
             onSubmit={handleSubmit}
             onClick={handleSubmit}
             msg="xx"
+            persons={persons}
+            setPerson={setPerson}
         >
             {person}
         </PersonComponent>
