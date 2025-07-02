@@ -4,7 +4,6 @@ import type { Item } from '../models/items';
 import type { ItemsSale, Order } from '../models/orderItems';
 import api from '../services/api/api';
 import { useAuth } from '../context/AuthContext';
-import { href } from 'react-router-dom';
 
 const Sale: React.FC = () => {
 

@@ -11,17 +11,19 @@ import { navSale } from "../sale/navSale"
 import SelectComponent from "../select/SelectComponent";
 
 import './styles.css'
+import type { ResponseAddress } from "../../models/address";
 
 type Props = {
     handleChange: any
     persons: ResponsePerson[]
+    addresss: ResponseAddress[]
     children: TPerson
     onSubmit: React.FormEventHandler<HTMLFormElement>
-    onClick: React.MouseEventHandler<HTMLButtonElement>
+    onClick?: React.MouseEventHandler<HTMLButtonElement>
     msg: string
     setPerson: Function // Funcão do State
-    handleChangeList:Function | any
-    showItems:boolean
+    handleChangeList: Function | any
+    showItems: boolean
 }
 
 const PersonComponent: React.FC<Props> = ({
@@ -29,11 +31,11 @@ const PersonComponent: React.FC<Props> = ({
     persons,
     children,
     onSubmit,
-    onClick,
     msg,
     setPerson,
     handleChangeList,
-    showItems
+    showItems,
+    addresss
 }: Props) => {
 
     const nav_ = navSale();
@@ -43,85 +45,90 @@ const PersonComponent: React.FC<Props> = ({
         { value: 'FEMININO', label: 'Feminino' },
     ];
 
-    const [clienteSelecionado, setClienteSelecionado] = useState<TPerson>();
+    const [personSelected, setPersonSelected] = useState<ResponsePerson>();
+    const [addressSelectd, setAddressSelected] = useState<ResponseAddress>();
 
-    const handleChange_ = (e: any) => {
+    const handleChangePers = (e: any) => {
         const id = parseInt(e.target.value);
-        const cliente = persons.find(c => c.id === id);
-        setClienteSelecionado(cliente);
-        setPerson(cliente)
+        const person = persons.find(c => c.id === id);
+        setPersonSelected(person);
+        setPerson(person)
     };
 
-    const mPerson_ = <MenuComponent
-        content={<>
-            <div className="person-select">
-                <h2>Selecione um cliente:</h2>
-                <select onChange={handleChange_}>
-                    <option value={children.id}>-- Escolha --</option>
-                    {persons.map(cliente => (
-                        <option key={cliente.id} value={cliente.id}>
-                            {cliente.name}
-                        </option>
-                    ))}
-                </select>
-                {clienteSelecionado && (
-                    <><p>Cliente: {clienteSelecionado.name}(ID: {clienteSelecionado.id})</p>
-                        <p>CPF: {clienteSelecionado.cpf}</p></>)}
-            </div>
-            <label className="checkbox-label">
-        <input
-          type="checkbox"
-          checked={showItems}
-          onChange={handleChangeList}
-        />{!showItems ? "Mostrar Cadastro(s)" : "Ocultar Cadastro(s)"}
-      </label>
-        </>}
-    />
-    return <>
-        <>{nav_}</>
-        <p>{mPerson_}</p>
-        <ModalComponent
-            title="Cliente"
-            btnOpen="Inserir Novo Cliente"
-            main={<FormComponents
-                onSubmit={onSubmit}
-                content={<>
-                    <div className="line">
-                        <LabelComponents
-                            name="Cliente"
-                            input={
-                                <InputComponent
-                                    type="text"
-                                    placeholder="Seu nome"
-                                    name="name"
-                                    onChange={handleChange}
-                                    value={children.name}
-                                />}
-                        />
-                    </div>
-                    <div className="line">
-                        <LabelComponents
-                            name="CPF"
-                            input={
-                                <InputComponent
-                                    className="input-cpf"
-                                    type="text"
-                                    placeholder="CPF"
-                                    name='cpf'
-                                    onChange={handleChange}
-                                    value={children.cpf}
-                                />
-                            }
-                        />
-                        <span className="gender-select">Gênero: {children.gender || 'Nenhum'}</span>
-                        <SelectComponent
-                            label={"Escolha um gênero"}
-                            name="gender"
-                            options={options}
-                            value={options}
-                            onChange={handleChange}
-                        />
-                    </div>
+    const handleChangeAddr = (e: any) => {
+        const id = parseInt(e.target.value);
+        const address: any = addresss.find(c => c.id === id);
+        setAddressSelected(address);
+        setPerson((prev: ResponsePerson) => {
+            const existingAddresses = Array.isArray(prev.personAddress) ? prev.personAddress : [];
+            const minimalAddress = { id: address.id, street: address.street };
+            const alreadyExists = existingAddresses.some((a: any) => a.id === address.id);
+            const updatedAddresses = alreadyExists
+                ? existingAddresses
+                : [...existingAddresses, minimalAddress];
+            return {
+                ...prev,
+                personAddress: updatedAddresses,
+            };
+        });
+    };
+
+    const listAdrr_ = <div className="">
+        <h2>Selecione o Endereço:</h2>
+        <select onChange={handleChangeAddr}>
+            <option value={children.id}>-- Escolha --</option>
+            {addresss.map(address => (
+                <option key={address.street} value={address.id}>
+                    {address.street}
+                </option>
+            ))}
+        </select>
+        {addressSelectd && (<><p>Endereço: {addressSelectd.street}(ID: {addressSelectd.id})</p></>)}
+    </div>
+
+    const mPersCad_ = <ModalComponent
+        title="Cliente"
+        btnOpen="+"
+        main={<FormComponents
+            onSubmit={onSubmit}
+            content={<>
+                <div className="line">
+                    <LabelComponents
+                        name="Cliente"
+                        input={
+                            <InputComponent
+                                type="text"
+                                placeholder="Seu nome"
+                                name="name"
+                                onChange={handleChange}
+                                value={children.name}
+                            />}
+                    />
+                </div>
+                <div className="line">
+                    <LabelComponents
+                        name="CPF"
+                        input={
+                            <InputComponent
+                                className="input-cpf"
+                                type="text"
+                                placeholder="CPF"
+                                name='cpf'
+                                onChange={handleChange}
+                                value={children.cpf}
+                            />
+                        }
+                    />
+                    <span className="gender-select">Gênero: {children.gender || 'Nenhum'}</span>
+                    <SelectComponent
+                        label={"Escolha um gênero"}
+                        name="gender"
+                        options={options}
+                        value={options}
+                        onChange={handleChange}
+                    />
+                </div>
+                <div className="line">
                     <LabelComponents
                         name="Data de nascimento"
                         input={<InputComponent
@@ -133,16 +140,48 @@ const PersonComponent: React.FC<Props> = ({
                             value={children.dateOfBirth}
                         />}
                     />
-                    <ButtonComponent
-                        name="Inserir"
-                        onClick={onClick}
-                    />
-                    <MsgComponent
-                        msg={msg}
-                    />
-                </>}
-            />}
-        />
+                    <>{listAdrr_}</>
+                </div>
+                <ButtonComponent
+                    name="Inserir"
+                // onClick={onClick}
+                />
+                <MsgComponent
+                    msg={msg}
+                />
+            </>}
+        />}
+    />
+    const mPerson_ = <MenuComponent
+        content={<>
+            <div className="person-select">
+                <h2>Selecione o Comprador:</h2>
+                <select onChange={handleChangePers}>
+                    <option value={children.id || 0}>-- Escolha --</option>
+                    {persons.map(person => (
+                        <option key={person.id} value={person.id}>
+                            {person.name}
+                        </option>
+                    ))}
+                </select>
+                {personSelected && (
+                    <><p>Cliente: {personSelected.name}(ID: {personSelected.id})</p>
+                        <p>CPF: {personSelected.cpf} (ID-End: {personSelected.personAddress.idAddrees})</p></>)}
+            </div>
+            <div className="btn-add-cad">{mPersCad_}</div>
+            <label className="checkbox-label">
+                <input
+                    type="checkbox"
+                    checked={showItems}
+                    onChange={handleChangeList}
+                />{!showItems ? "Mostrar Cadastro(s)" : "Ocultar Cadastro(s)"}
+            </label>
+        </>}
+    />
+    return <>
+        <>{nav_}</>
+        <>{mPerson_}</>
+
     </>
 }
 

@@ -2,7 +2,7 @@
 import './styles.css'
 
 type Props = {
-    onClick: React.MouseEventHandler<HTMLButtonElement>;
+    onClick?: React.MouseEventHandler<HTMLButtonElement>;
     name: string
 }
 

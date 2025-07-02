@@ -5,13 +5,15 @@ import styles from '../list/Table.module.css'
 
 type Props = {
   address: ResponseAddress[]
+  showItems:boolean
 }
 
 const AddressListComponent: React.FC<Props> = ({
-  address
+  address,
+  showItems
 }: Props) => {
-  return <>
-    <ListComponent
+
+  const listAddr_ = <ListComponent
       th={<>
         <th>ID</th>
         <th>Nome</th>
@@ -52,6 +54,9 @@ const AddressListComponent: React.FC<Props> = ({
         </tr>
       ))}
     />
+
+  return <>
+    <>{showItems && listAddr_}</>
   </>
 }
 
