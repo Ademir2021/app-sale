@@ -5,12 +5,15 @@ import styles from '../list/Table.module.css'
 
 type Props = {
     persons: ResponsePerson[]
+    showItems:boolean
 }
 
 const PersonListComponent: React.FC<Props> = ({
-    persons
+    persons,
+    showItems
 }) => {
-    return <>
+
+    const listPers_ = <>
         <ListComponent
             th={<>
                 <th>ID</th>
@@ -33,6 +36,10 @@ const PersonListComponent: React.FC<Props> = ({
                 </tr>
             ))}
         />
+    </>
+
+    return <>
+    <>{showItems && listPers_}</>
     </>
 }
 

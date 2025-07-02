@@ -8,35 +8,36 @@
 
 .container-nav nav {
   display: flex;
-  gap: 10px;
+  gap: 12px;
   flex-wrap: wrap;
   align-items: center;
-  font-size: 12px;
+  font-size: 16px;
 }
 
 .container-nav nav a {
-  color: #007bff;
+  /* color: #007bff; */
+  color: black;
   text-decoration: none;
   transition: color 0.2s ease;
 }
 
 .container-nav nav a:hover {
   color: #0056b3;
-  /* text-decoration: underline; */
+  text-decoration: underline;
 }
 
 /* Estilo opcional para as barras "" */
-/* .container-nav nav a + a::before {
-  content: "";
-  color: #999;
-} */
+.container-nav nav a + a::before {
+  content: "* ";
+  color: red;
+}
 
 .uri-is-active{
-  padding: 2px;
-  border-radius: 3px;
-  background-color:aquamarine;
-  padding-left: 6px;
-  padding-right: 6px;
+  padding: 8px;
+  border-radius: 12px;
+  background-color:gold;
+  padding-left: 16px;
+  padding-right: 16px;
 }
 
 .uri-is-no-active{

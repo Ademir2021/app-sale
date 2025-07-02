@@ -4,11 +4,13 @@ import type { ResponsePerson, TPerson } from "../models/person"
 import api from "../services/api/api"
 import { useAuth } from "../context/AuthContext"
 import PersonListComponent from "../components/person/PersonListComponent"
+import type { Order } from "../models/orderItems"
 
 const Person: React.FC = () => {
 
     const { headers, user } = useAuth();
 
+    const [showItems, setShowItems] = useState(false);
     const [persons, setPersons] = useState<ResponsePerson[]>([])
     const [person, setPerson] = useState<TPerson>({
         id: 0,
@@ -21,6 +23,10 @@ const Person: React.FC = () => {
         cpf: "",
         personAddress: []
     })
+
+     const handleChangeList = (e: { target: { checked: boolean | ((prevState: boolean) => boolean); }; }) => {
+    setShowItems(e.target.checked);
+  };
 
     const handleChange = (e: any) => {
         const name = e.target.name;
@@ -35,18 +41,30 @@ const Person: React.FC = () => {
                 console.log(persons)
             })
     }
-
     useEffect(() => {
         getPersons()
     }, [])
 
+    const handleUpPerson = (person: TPerson) => {
+        const storeOrder = localStorage.getItem("sale")
+        if (storeOrder) {
+            const order: Order = JSON.parse(storeOrder)
+            order.person.id = person.id
+            localStorage.setItem("sale", JSON.stringify(order))
+            console.log(order)
+        }
+    }
+
+    useEffect(() => {
+        handleUpPerson(person)
+    }, [person])
+
     const handleSubmit = (e: any) => {
         e.preventDefault()
-         getPersons()
+        console.log("Grava um novo Cliente: ", person)
     }
-    console.log(person)
     return <>
-        <p>{JSON.stringify(person)}</p>
+        {/* <p>{JSON.stringify(person)}</p> */}
         <PersonComponent
             handleChange={handleChange}
             onSubmit={handleSubmit}
@@ -54,11 +72,14 @@ const Person: React.FC = () => {
             msg="xx"
             persons={persons}
             setPerson={setPerson}
+            handleChangeList={handleChangeList}
+            showItems={showItems}
         >
             {person}
         </PersonComponent>
         <PersonListComponent
-        persons={persons}
+            persons={persons}
+            showItems={showItems}
         />
     </>
 }

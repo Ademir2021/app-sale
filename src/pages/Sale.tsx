@@ -4,6 +4,7 @@ import type { Item } from '../models/items';
 import type { ItemsSale, Order } from '../models/orderItems';
 import api from '../services/api/api';
 import { useAuth } from '../context/AuthContext';
+import { href } from 'react-router-dom';
 
 const Sale: React.FC = () => {
 
@@ -47,6 +48,8 @@ const Sale: React.FC = () => {
       discount: discountValue,
       tNote: Math.max(prev.tSale - discountValue, 0), // impede valores negativos
     }));
+    //Atualiza desconto no storage
+    localStorage.setItem("sale", JSON.stringify(order))
   };
 
   function getStoreOrder() {
@@ -86,17 +89,6 @@ const Sale: React.FC = () => {
       }
   }
 
-  // function sumItem(updatedItem: ItemsSale): void {
-  //   const itemIndex = order.itemsSale.findIndex(i => i.item.id === updatedItem.item.id);
-  //   if (itemIndex !== -1) {
-  //     const currentItem = order.itemsSale[itemIndex];
-  //     // Atualiza a quantidade e o total do item
-  //     currentItem.amount = updatedItem.amount;
-  //     currentItem.tItem = updatedItem.amount * updatedItem.price;
-  //   }
-  // }
-
-
   function verifItem(item: ItemsSale) {
     const exists = order.itemsSale.some(i => i.item.id === item.item.id);
     if (exists) {
@@ -116,14 +108,6 @@ const Sale: React.FC = () => {
     order.tNote = order.tSale - order.discount
   }
 
-  // function sumTotalSale(currentOrder: typeof order) {
-  //   const totalSale = currentOrder.itemsSale.reduce((sum, item) => sum + item.tItem, 0);
-  //   const totalNote = totalSale - (currentOrder.discount || 0);
-  //   currentOrder.tSale = totalSale;
-  //   currentOrder.tNote = totalNote;
-  // }
-
-
   const handleUpItem = (item: Item) => {
     const setItemOrder: ItemsSale = {
       item: { id: 0, name: "" },
@@ -142,14 +126,6 @@ const Sale: React.FC = () => {
     getStoreOrder()
   };
 
-  // const handleDownItem = (item: Item) => {
-  //   const newArray = order.itemsSale.filter(obj => obj.item.id !== item.id);
-  //   order.itemsSale = newArray
-  //   sumTotalSale()
-  //   localStorage.setItem("sale", JSON.stringify(order))
-  //   getStoreOrder()
-  // };
-
   const handleDownItem = (itemToRemove: Item) => {
     const updatedItems = order.itemsSale.filter(({ item }) => item.id !== itemToRemove.id);
     const updatedOrder = { ...order, itemsSale: updatedItems };
@@ -158,7 +134,6 @@ const Sale: React.FC = () => {
     localStorage.setItem("sale", JSON.stringify(updatedOrder));
     getStoreOrder();
   };
-
 
   function incrementItemListStore(item_: Item) {
     for (let item of order.itemsSale) {

@@ -20,6 +20,8 @@ type Props = {
     onClick: React.MouseEventHandler<HTMLButtonElement>
     msg: string
     setPerson: Function // Funcão do State
+    handleChangeList:Function | any
+    showItems:boolean
 }
 
 const PersonComponent: React.FC<Props> = ({
@@ -29,7 +31,9 @@ const PersonComponent: React.FC<Props> = ({
     onSubmit,
     onClick,
     msg,
-    setPerson
+    setPerson,
+    handleChangeList,
+    showItems
 }: Props) => {
 
     const nav_ = navSale();
@@ -46,7 +50,6 @@ const PersonComponent: React.FC<Props> = ({
         const cliente = persons.find(c => c.id === id);
         setClienteSelecionado(cliente);
         setPerson(cliente)
-        // console.log("Cliente selecionado:", cliente);
     };
 
     const mPerson_ = <MenuComponent
@@ -65,6 +68,13 @@ const PersonComponent: React.FC<Props> = ({
                     <><p>Cliente: {clienteSelecionado.name}(ID: {clienteSelecionado.id})</p>
                         <p>CPF: {clienteSelecionado.cpf}</p></>)}
             </div>
+            <label className="checkbox-label">
+        <input
+          type="checkbox"
+          checked={showItems}
+          onChange={handleChangeList}
+        />{!showItems ? "Mostrar Cadastro(s)" : "Ocultar Cadastro(s)"}
+      </label>
         </>}
     />
     return <>
