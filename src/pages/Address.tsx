@@ -4,7 +4,7 @@ import type { TAddress, ResponseAddress } from "../models/address";
 import AddressListComponent from "../components/address/AddressListComponent";
 import api from "../services/api/api";
 import { useAuth } from "../context/AuthContext";
-// import type { Order } from "../models/orderItems";
+import type { ResponsePerson } from "../models/person";
 
 
 const Address: React.FC = () => {
@@ -13,6 +13,7 @@ const Address: React.FC = () => {
 
     // const [msg, setMsg] = useState('')
         const [showItems, setShowItems] = useState(false);
+    const [persons, setPersons] = useState<ResponsePerson[]>([])
     const [addresss, setAddresss] = useState<ResponseAddress[]>([])
     const [address, setAddress] = useState<TAddress>({
         id: 0,
@@ -21,7 +22,7 @@ const Address: React.FC = () => {
         neighbor: "",
         complement: "",
         person: { id: 0, name: '' },
-        zipCode: { id: 0, code: '' }
+        zipCode: { id: 1, code: '' }
     })
 
      const handleChangeList = (e: { target: { checked: boolean | ((prevState: boolean) => boolean); }; }) => {
@@ -33,6 +34,17 @@ const Address: React.FC = () => {
         const value = e.target.value;
         setAddress((values: any) => ({ ...values, [name]: value }))
     }
+
+       async function getPersons() {
+        await api.get<ResponsePerson[]>("persons/persons", headers)
+            .then(response => {
+                setPersons(response.data)
+            })
+    }
+
+    useEffect(() => {
+        getPersons()
+    }, [])
 
     async function getAddresss() {
         await api.get<ResponseAddress[]>("address/address", headers)
@@ -53,6 +65,7 @@ const Address: React.FC = () => {
     }
 
     return <>
+    <p>{JSON.stringify(address)}</p>
         <AddressComponent
             onSubmit={handleSubmit}
             onClick={handleSubmit}
@@ -60,6 +73,8 @@ const Address: React.FC = () => {
             msg={'msg'}
             handleChangeList={handleChangeList}
             showItems={showItems}
+            setAddress={setAddress}
+            persons={persons}
         >
             {address}
         </AddressComponent>
