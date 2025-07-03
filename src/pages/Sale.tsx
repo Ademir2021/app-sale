@@ -7,20 +7,19 @@ import { useAuth } from '../context/AuthContext';
 
 const Sale: React.FC = () => {
 
-  const { headers } = useAuth();
+  const { headers, user } = useAuth();
 
   const [showItems, setShowItems] = useState(false);
   const [showOrder, setShowOrder] = useState(false);
-  const [responseStatus, setResponseStatus] = useState(0)
   const [searchItemName, setSearchItemName] = useState<string>("")
   const [items, setItems] = useState<Item[]>([])
   const [order, setOrder] = useState<Order>({
-    person: { id: 1 },
+    person: { id: 0 },
     branch: { id: 1 },
-    user: { id: 1 },
-    tSale: 0.00,
-    tNote: 0.00,
-    discount: 0.00,
+    user: { id: user?.id || 0 },
+    tSale: 0,
+    tNote: 0,
+    discount: 0,
     itemsSale: []
   })
 
@@ -65,7 +64,6 @@ const Sale: React.FC = () => {
     await api.get<Item[]>("items/search_name?name=" + searchItemName, { headers })
       .then(response => {
         setItems(response.data)
-        setResponseStatus(response.status)
       })
   }
 
@@ -73,12 +71,6 @@ const Sale: React.FC = () => {
     getItems()
   }, [searchItemName])
 
-  async function sendSale() {
-    await api.post<Order>("store/sales", order, { headers })
-      .then(response => {
-        console.log(response.data)
-      })
-  }
 
   function sumItem(item: ItemsSale) {
     for (let i of order.itemsSale)
@@ -159,20 +151,6 @@ const Sale: React.FC = () => {
       }
     }
   };
-
-  function handleSaleSumbit() {
-    if (order.itemsSale.length > 0) {
-      sendSale()
-      if (responseStatus === 200) {
-        localStorage.removeItem('sale')
-        order.itemsSale = []
-        console.log(responseStatus)
-      }
-    } else {
-      alert("Nenhum item no pedido")
-    }
-  }
-
   return <>
     <SaleComponent
       items={items}
@@ -190,7 +168,6 @@ const Sale: React.FC = () => {
       searchItemName={searchItemName}
     />
     <br />
-    <button onClick={handleSaleSumbit}>Enviar Venda</button>
   </>
 }
 export default Sale;

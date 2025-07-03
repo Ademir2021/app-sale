@@ -11,6 +11,7 @@ import AdminRoute from './AdminRoute';
 import Sale from '../pages/Sale';
 import Address from '../pages/Address';
 import Person from '../pages/Person';
+import CloseOrder from '../pages/CloseOrder';
 
 const router = createBrowserRouter([
   {
@@ -47,8 +48,14 @@ const router = createBrowserRouter([
             <Person />
           </ProtectedRoute>
         )
-      },
-      {
+      },{
+        path:'close_order',
+        element:(
+          <ProtectedRoute>
+            <CloseOrder/>
+          </ProtectedRoute>
+        )
+      },{
         path: 'admin',
         element: (
           <AdminRoute>

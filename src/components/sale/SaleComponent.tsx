@@ -54,7 +54,7 @@ const SaleComponent: React.FC<Props> = ({
       /><input
         type='number'
         // name="discount"
-        value={order.discount || ""}
+        value={order.discount || ''}
         onChange={handleDiscountChange}
         placeholder="Desconto"
       /><input
