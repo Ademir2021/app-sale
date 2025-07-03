@@ -49,7 +49,7 @@ const AddressComponent: React.FC<Props> = ({
       ...prev,
       person: {
         ...prev.person,
-        id: person?.id || 0 // garante que um ID seja definido
+        id: person?.id || 1 // garante que um ID seja definido
       }
     }));
   };

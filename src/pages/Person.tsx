@@ -25,7 +25,7 @@ const Person: React.FC = () => {
         dateOfBirth: "2000-01-01",
         gender: 'MASCULINO',
         cpf: "",
-        personAddress: []
+        personAddress: [] 
     })
 
     const handleChangeList = (e: { target: { checked: boolean | ((prevState: boolean) => boolean); }; }) => {

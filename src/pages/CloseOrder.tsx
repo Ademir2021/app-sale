@@ -61,14 +61,11 @@ const CloseOrder: React.FC = () => {
         }
     }
     return (
-        <>
             <CloseOrderComponent
             handleSaleSumbit={handleSaleSumbit}
             order={order}
+            msg={msg}
             />
-           
-            <p>{msg}</p>
-        </>
     )
 }
 

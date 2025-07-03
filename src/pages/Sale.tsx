@@ -38,16 +38,18 @@ const Sale: React.FC = () => {
 
   const handleDiscountChange = (e: { target: { value: any; }; }) => {
     const inputValue = e.target.value;
-    // Converte para número, se possível
     const discountValue = parseFloat(inputValue) || 0;
-    // Atualiza o objeto order com o novo desconto e tNote recalculado
-    setOrder((prev) => ({
-      ...prev,
-      discount: discountValue,
-      tNote: Math.max(prev.tSale - discountValue, 0), // impede valores negativos
-    }));
-    //Atualiza desconto no storage
-    localStorage.setItem("sale", JSON.stringify(order))
+    const updatedOrder = (prev: typeof order) => {
+      const newOrder = {
+        ...prev,
+        discount: discountValue,
+        tNote: Math.max(prev.tSale - discountValue, 0),
+      };
+      // Atualiza o localStorage com o novo estado
+      localStorage.setItem("sale", JSON.stringify(newOrder));
+      return newOrder;
+    };
+    setOrder(updatedOrder);
   };
 
   function getStoreOrder() {
@@ -70,7 +72,6 @@ const Sale: React.FC = () => {
   useEffect(() => {
     getItems()
   }, [searchItemName])
-
 
   function sumItem(item: ItemsSale) {
     for (let i of order.itemsSale)

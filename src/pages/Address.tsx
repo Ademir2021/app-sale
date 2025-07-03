@@ -23,7 +23,7 @@ const Address: React.FC = () => {
         number: '',
         neighbor: "",
         complement: "",
-        person: { id: 0, name: '' },
+        person: { id: 1, name: '' },
         zipCode: { id: 1, code: '' }
     })
 
@@ -97,6 +97,7 @@ const Address: React.FC = () => {
     }
 
     return <>
+    {/* <p>{JSON.stringify(address)}</p> */}
         <AddressComponent
             onSubmit={handleSubmit}
             handleChange={handleChange}
