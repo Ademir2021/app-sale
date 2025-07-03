@@ -1,18 +1,24 @@
 
-type Props={
-    content:React.ReactNode
-    onSubmit:React.FormEventHandler<HTMLFormElement> 
+type Props = {
+    content: React.ReactNode
+    onSubmit: React.FormEventHandler<HTMLFormElement>
+    ClassName?: string
 }
 
 import './styles.css'
 
-const FormComponents:React.FC<Props> = ({
+const FormComponents: React.FC<Props> = ({
     content,
-    onSubmit
-}:Props)=>{
-    return<>
-    <form onSubmit={onSubmit}
-    className="form">{content}</form>
+    onSubmit,
+    ClassName
+}: Props) => {
+    return <>
+        <form onSubmit={onSubmit}
+            className="form">
+            <div className={ClassName}>
+                {content}
+            </div>
+        </form>
     </>
 }
 

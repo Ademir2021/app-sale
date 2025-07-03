@@ -121,7 +121,7 @@ const PersonComponent: React.FC<Props> = ({
                     />
                     <span className="gender-select">Gênero: {children.gender || 'Nenhum'}</span>
                     <SelectComponent
-                        label={"Escolha um gênero"}
+                        label={<p className="gender-title">Escolha um gênero</p>}
                         name="gender"
                         options={options}
                         value={options}

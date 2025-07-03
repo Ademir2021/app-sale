@@ -67,13 +67,13 @@ const Person: React.FC = () => {
         }
     }
 
-    setTimeout(() => {
-        setMsg('')
-    }, 5000)
-
     useEffect(() => {
         handleUpPerson(person)
     }, [person])
+
+    setTimeout(() => {
+        setMsg('')
+    }, 5000)
 
     async function savePerson() {
         try {
@@ -102,7 +102,6 @@ const Person: React.FC = () => {
         <PersonComponent
             handleChange={handleChange}
             onSubmit={handleSubmit}
-            // onClick={}
             msg={msg}
             persons={persons}
             setPerson={setPerson}

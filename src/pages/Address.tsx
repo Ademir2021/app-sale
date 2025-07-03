@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import AddressComponent from "../components/address/AddressComponent"
-import type { TAddress, ResponseAddress } from "../models/address";
+import type { TAddress, ResponseAddress, ResponseZipCode } from "../models/address";
 import AddressListComponent from "../components/address/AddressListComponent";
 import api from "../services/api/api";
 import { useAuth } from "../context/AuthContext";
@@ -11,8 +11,10 @@ const Address: React.FC = () => {
 
     const { headers } = useAuth();
 
-    // const [msg, setMsg] = useState('')
-        const [showItems, setShowItems] = useState(false);
+    const [msg, setMsg] = useState('')
+    const [flag, setFlag] = useState(false)
+    const [showItems, setShowItems] = useState(false);
+    const [zipcodes, setZipCodes] = useState<ResponseZipCode[]>([])
     const [persons, setPersons] = useState<ResponsePerson[]>([])
     const [addresss, setAddresss] = useState<ResponseAddress[]>([])
     const [address, setAddress] = useState<TAddress>({
@@ -25,7 +27,7 @@ const Address: React.FC = () => {
         zipCode: { id: 1, code: '' }
     })
 
-     const handleChangeList = (e: { target: { checked: boolean | ((prevState: boolean) => boolean); }; }) => {
+    const handleChangeList = (e: { target: { checked: boolean | ((prevState: boolean) => boolean); }; }) => {
         setShowItems(e.target.checked);
     };
 
@@ -35,7 +37,7 @@ const Address: React.FC = () => {
         setAddress((values: any) => ({ ...values, [name]: value }))
     }
 
-       async function getPersons() {
+    async function getPersons() {
         await api.get<ResponsePerson[]>("persons/persons", headers)
             .then(response => {
                 setPersons(response.data)
@@ -50,7 +52,6 @@ const Address: React.FC = () => {
         await api.get<ResponseAddress[]>("address/address", headers)
             .then(response => {
                 setAddresss(response.data)
-                // console.log(response.data)
             })
     }
 
@@ -58,23 +59,53 @@ const Address: React.FC = () => {
         getAddresss()
     }, [])
 
+    async function getZipcode() {
+        await api.get("zipcodes/zipcode", headers)
+            .then(response => {
+                setZipCodes(response.data)
+            })
+    }
+
+    useEffect(() => {
+        getZipcode()
+    }, [])
+
+    setTimeout(() => {
+        setMsg('')
+    }, 5000)
+
+    async function saveAddress() {
+        try {  
+            await api.post("address/address", address, { headers })
+                .then(response => {
+                    if (response.status === 200)
+                        setMsg(response.data)
+                    setFlag(true)
+                })
+        } catch (error) {
+            setMsg("Error " + error)
+        }
+    }
 
     const handleSubmit = (e: any) => {
         e.preventDefault()
-        console.log("Novo Endereço: ", address)
+        if (flag === false) {
+            saveAddress()
+        } else {
+            setMsg("Endereço já foi cadastrado")
+        }
     }
 
     return <>
-    <p>{JSON.stringify(address)}</p>
         <AddressComponent
             onSubmit={handleSubmit}
-            onClick={handleSubmit}
             handleChange={handleChange}
-            msg={'msg'}
+            msg={msg}
             handleChangeList={handleChangeList}
             showItems={showItems}
             setAddress={setAddress}
             persons={persons}
+            zipcodes={zipcodes}
         >
             {address}
         </AddressComponent>

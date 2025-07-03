@@ -1,5 +1,5 @@
 import { useState } from "react"
-import type { TAddress } from "../../models/address"
+import type { ResponseZipCode, TAddress } from "../../models/address"
 import type { ResponsePerson } from "../../models/person"
 import ButtonComponent from "../button/ButtonComponent"
 import FormComponents from "../form/FormComponents"
@@ -15,9 +15,9 @@ import './styles.css'
 type Props = {
   handleChange: any
   persons: ResponsePerson[]
+  zipcodes:ResponseZipCode[]
   children: TAddress
   onSubmit: React.FormEventHandler<HTMLFormElement>
-  onClick: React.MouseEventHandler<HTMLButtonElement>
   msg: string
   setAddress: Function // Funcão do State
   handleChangeList: Function | any
@@ -27,9 +27,9 @@ type Props = {
 const AddressComponent: React.FC<Props> = ({
   handleChange,
   persons,
+  zipcodes,
   children,
   onSubmit,
-  onClick,
   msg,
   setAddress,
   handleChangeList,
@@ -39,6 +39,7 @@ const AddressComponent: React.FC<Props> = ({
   const nav_ = navSale()
 
   const [personSelected, setPersonSelected] = useState<ResponsePerson>();
+  const [zipcodeSelected, setZipcodeSelected] = useState<ResponseZipCode>();
 
   const handleChangePers = (e: any) => {
     const id = parseInt(e.target.value);
@@ -53,10 +54,24 @@ const AddressComponent: React.FC<Props> = ({
     }));
   };
 
+  const handleChangeZipcode = (e: any) => {
+    const id = parseInt(e.target.value);
+    const person = zipcodes.find(c => c.id === id);
+    setZipcodeSelected(person);
+    setAddress((prev: TAddress) => ({
+      ...prev,
+      zipCode: {
+        ...prev.zipCode,
+        id: person?.id || 0 // garante que um ID seja definido
+      }
+    }));
+  };
+
   const addAddrCad_ = <ModalComponent
     title="Endereços"
     btnOpen="+"
     main={<FormComponents
+    ClassName="form-ajust"
       onSubmit={onSubmit}
       content={<>
         <div className="line">
@@ -71,6 +86,9 @@ const AddressComponent: React.FC<Props> = ({
                 value={children.street}
               />}
           />
+            </div>
+            <div className="line">
+
           <LabelComponents
             name="Número"
             input={
@@ -95,7 +113,8 @@ const AddressComponent: React.FC<Props> = ({
               value={children.neighbor}
             />}
           />
-        </div>
+            </div>
+      
         <div className="line">
           <LabelComponents
             name="Complemento"
@@ -109,22 +128,10 @@ const AddressComponent: React.FC<Props> = ({
               />
             }
           />
-          <LabelComponents
-            name="Cep"
-            input={
-              <InputComponent
-                type="text"
-                placeholder="Cep"
-                name="zipCode"
-                onChange={handleChange}
-                value={children.zipCode.id}
-              />
-            }
-          />
         </div>
         <div className="line">
-          <div className="person-select">
-            <h2>Selecione a pessoa:</h2>
+          <div className="">
+            <h2>Selecione a Pessoa:</h2>
             <select onChange={handleChangePers}>
               <option value={children.person.id || 0}>-- Escolha --</option>
               {persons.map(person => (
@@ -137,11 +144,24 @@ const AddressComponent: React.FC<Props> = ({
               <><p>Cliente: {personSelected.name}(ID: {personSelected.id})</p>
                 <p>CPF: {personSelected.cpf} (ID-End: {personSelected.personAddress.idAddrees})</p></>)}
           </div>
-          {/* <div className="btn-add-cad">{mPersCad_}</div> */}
+          <div className="line">
+          <div className="">
+            <h2>Selecione o Cep:</h2>
+            <select onChange={handleChangeZipcode}>
+              <option value={children.zipCode.id || 0}>-- Escolha --</option>
+              {zipcodes.map(zipcode => (
+                <option key={zipcode.id} value={zipcode.id}>
+                  {zipcode.code}
+                </option>
+              ))}
+            </select>
+            {zipcodeSelected && (
+              <><p>Cep: {zipcodeSelected.code}(ID: {zipcodeSelected.id})</p></>)}
+          </div>
+          </div>
         </div>
         <ButtonComponent
           name="Inserir"
-          onClick={onClick}
         />
         <MsgComponent
           msg={msg}

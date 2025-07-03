@@ -17,7 +17,7 @@ const InputComponent: React.FC<Props> = ({
     className,
     onChange
 }: Props) => {
-    return <>
+    return (
         <input
         className={className}
             type={type}
@@ -27,7 +27,7 @@ const InputComponent: React.FC<Props> = ({
             required
             onChange={onChange}
         />
-    </>
+    )
 }
 
 export default InputComponent

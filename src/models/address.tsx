@@ -6,10 +6,16 @@ type ZipCode = {
     id: number;
     code: string;
 }
+
+export type ResponseZipCode = {
+    id: number;
+    code: string;
+}
+
 export type TAddress = {
     id: number;
     street: string;
-    number:string;
+    number: string;
     neighbor: string;
     complement: string
     person: Person
@@ -17,26 +23,26 @@ export type TAddress = {
 }
 
 type City = {
-    id:number;
-    name:string
-    state:string;
-    codeIbge:string
+    id: number;
+    name: string
+    state: string;
+    codeIbge: string
 }
 
 type Country = {
-    id:number;
-    code:string;
-    name:string;
+    id: number;
+    code: string;
+    name: string;
 }
 
 export type ResponseAddress = {
     id: number;
     street: string;
-    number:string;
+    number: string;
     neighbor: string;
     complement: string
     person: Person
     zipCode: ZipCode
-    city:City
-    country:Country
+    city: City
+    country: Country
 }

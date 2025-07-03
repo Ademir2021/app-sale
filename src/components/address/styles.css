@@ -9,3 +9,10 @@
 .btn-add-cad{
     margin-right: 26vh;
 }
+.form-ajust{
+    font-size: 12px;
+}
+
+.form-ajust select{
+    width: 26vh;
+}
